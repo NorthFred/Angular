@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AngularDemo</title>
+  <script data-require="angular.js@1.4.0-rc.1" data-semver="1.4.0-rc.1" src="https://code.angularjs.org/1.4.0-rc.1/angular.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="title">
+    <h1>Angular.JS demo and trials!</h1>
+  </div>
+  
+  <div class="note" id="note">
+    <p><strong>NOTE! </strong>Bootstrapping the different modules is necessary to run multiple ng-apps on the same page!!</p>
+  </div>
+
+  <!-- Note that ng-app="" is empty, no controller assigned! -->
+  <div class="example1" ng-app="" id="ex1App">
+    <h2>Example 1</h2>
+    <p>Using "ng-model" to bind the value of the data to the app data.</p>
+    <br>
+    <p>Enter your name in the box below:</p>
+    <input type="text" style="width:250px" ng-model="input1" ng-init="input1 = 'Blablablabla'">
+    <p>The output will be displayed below as soon as you start typing:</p>
+    <p>Instant output: {{input1}}</p>
+    <br>
+  </div><br>
+
+  <!-- Using a controller. -->
+  <div class="example2" ng-app="ex2App" ng-controller="ex2Ctrl" id="ex2App">
+    <h2>Example 2</h2>
+    <p>Using a controller with a function!</p>
+    <br>
+    <p>Enter something here: </p>
+    <input type="text" ng-model="first">
+    <p>Enter something here: </p>
+    <input type="text" ng-model="second">
+    <br>
+    <p>Click the button for magic!</p>
+    <button ng-click="swap()">Swap fields!</button>
+  </div><br>
+
+  <script>
+    var app = angular.module('ex2App', []);
+    app.controller('ex2Ctrl', function($scope) {
+      $scope.first = "placeholder one";
+      $scope.second = "placeholder two";
+      $scope.swap = function() {
+        var temp = $scope.first;
+        $scope.first = $scope.second;
+        $scope.second = temp;
+      };
+    });
+   // Bootstrapping the different modules is necessary to run multiple ng-apps within the same page!
+    angular.bootstrap(document.getElementById("ex2App"), ['ex2App']);
+  </script>
+
+  <!-- Example with ng-repeat. -->
+  <div class="example3" ng-app="ex3App" ng-controller="ex3Ctrl" id="ex3App">
+    <h2>Example 3</h2>
+    <p>Using "ng-repeat". Data can be initialized with "ng-init"</p>
+    <br>
+    <p>Enter something here [1]: <input type="text" style="width:250px" ng-model="first" ng-init="first = 'cow'"></p> 
+    <p>Enter something here [2]: <input type="text" style="width:250px" ng-model="second" ng-init="second = 'monkey'"></p> 
+    <p>Enter something here [3]: <input type="text" style="width:250px" ng-model="third" ng-init="third = 'donkey'"></p> 
+    <p>Enter something here [4]: <input type="text" style="width:250px" ng-model="fourth" ng-init="fourth = 'parrot'"></p> 
+    <p>Enter something here [5]: <input type="text" style="width:250px" ng-model="fifth" ng-init="fifth = 'poodle'"></p> 
+    <br>
+    <p>Click the button for magic!</p>
+    <button ng-click="showlist()">List them all!</button>
+    <div class="listex3" id="listex3" style="display: none;">
+      <p>Listing the values of the input field using "ng-repeat":</p>
+      <ol>
+        <li ng-repeat="item in allInput">{{item}}</li>
+      </ol>
+    </div>
+  </div><br>
+
+  <script>
+    var app = angular.module('ex3App', []);
+    app.controller('ex3Ctrl', function($scope) {
+      $scope.showlist = function() {
+        // Create an array from the input elements
+        $scope.allInput = [$scope.first, $scope.second, $scope.third, $scope.fourth, $scope.fifth];
+        // Make the <div> element visible again
+        var displayList = document.getElementById("listex3");
+        displayList.style.display = "inline";
+      };
+    });
+   // Bootstrapping the different modules is necessary to run multiple ng-apps within the same page!
+    angular.bootstrap(document.getElementById("ex3App"), ['ex3App']);
+  </script>
+
+  <!-- Example with filters. -->
+  <div class="example4" ng-app="ex4App" ng-controller="ex4Ctrl" id="ex4App">
+    <h2>Example 4</h2>
+    <p>Adding filters to Angular directives.</p>
+    <br>
+    <p> Our data is defined as an array of objects. </p>
+    <br>
+    <p>Listing all the elements in our data list:</p>
+    <ul>
+      <li ng-repeat="item in ourData"> {{item.name}} lives in {{item.country}}</li>
+    </ul>
+    <br>
+    <p>Demonstrating the "uppercase" filter on our "object.country":</p>
+    <ul>
+      <li ng-repeat="item in ourData"> {{item.name}} lives in {{item.country | uppercase}}</li>
+    </ul>
+    <br>
+    <p>Demonstrating the "orderBy:'country'" filter:</p>
+    <ul>
+      <li ng-repeat="item in ourData | orderBy:'country'"> {{item.name}} lives in {{item.country}}</li>
+    </ul>
+    <br>
+    <p>Demonstrating the "orderBy:'name'" filter:</p>
+    <ul>
+      <li ng-repeat="item in ourData | orderBy:'name'"> {{item.name}} lives in {{item.country}}</li>
+    </ul>
+    <br>
+    <p>Demonstrating a filter (by country), bound to text input!</p>
+    <input type="text" ng-model="thisismyfilter.country">
+    <ul>
+      <li ng-repeat="item in ourData | filter:thisismyfilter"> {{item.name}} lives in {{item.country}}</li>
+    </ul>
+    <br>
+      
+  <script>
+    var app = angular.module('ex4App', []);
+    app.controller('ex4Ctrl', function($scope) {
+      // Our data is defined in an array.
+      $scope.ourData = [ { name : "Carlos", country : "Spain" },
+                         { name : "Heinz", country : "Germany"},
+                         { name : "Robert", country : "France"},
+                         { name : "Seppo", country : "Finland"} ];
+
+      $scope.ourData.forEach(x => console.log(x.name + " " + x.country));
+    });
+   // Bootstrapping the different modules is necessary to run multiple ng-apps within the same page!
+    angular.bootstrap(document.getElementById("ex4App"), ['ex4App']);
+  </script>
+
+
+</body>
+
+</html>
