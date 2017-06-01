@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular JS FILTER DEMO</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+
+<p>Name: <input type="text" ng-model="filtername">
+   Country: <input type="text" ng-model="filtercountry"></p>
+
+<ul>
+ <li ng-repeat="item in data | orderBy: 'name' | filter: filtername | filter: filtercountry"> {{item.name + " lives in " + item.country}}</li>
+</ul>
+
+</div>
+
+<script>
+var app = angular.module('myApp', [])
+app.controller('namesCtrl', function($scope) {
+    $scope.data = [
+        { name: 'Jani', country: 'Finland' },
+        { name: 'Carl', country: 'United Kingdom' },
+        { name: 'Margareth', country: 'United Kingdom' },
+        { name: 'Hege', country: 'Sweden' },
+        { name: 'Joe', country: 'United Kingdom' },
+        { name: 'Gustav', country: 'Sweden' },
+        { name: 'Birgit', country: 'Denmark' },
+        { name: 'Mary', country: 'United Kingdom' },
+        { name: 'Kai', country: 'Sweden' }
+    ];
+});
+</script>
+
+<p>Demonstrating filters in AngularJS:</p>
+<p>Data comes from array.  Array contains objects.</p>
+<p>Object properties can be retrieved with JS syntax.</p>
+<p>Multiple filters are in use:</p>
+<ul>
+  <li>Order by name</li>
+  <li>Filter according to input in name field ("filter: filtername")</li>
+  <li>Filter according to input in country field ("filter: filtercountry")</li>
+
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular JS FILTER DEMO 2</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+
+<table border="1px">
+  <tr>
+    <th width="200px" ng-click="sortby('name')">Name</th>
+    <th width="200px" ng-click="sortby('country')">Country</th>
+  </tr>
+  <tr ng-repeat="item in data | orderBy:sortbyWhat">
+    <td>{{item.name}}</td>
+    <td>{{item.country}}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+var app = angular.module('myApp', [])
+app.controller('namesCtrl', function($scope) {
+    $scope.data = [
+        { name: 'Jani', country: 'Finland' },
+        { name: 'Carl', country: 'United Kingdom' },
+        { name: 'Margareth', country: 'United Kingdom' },
+        { name: 'Hege', country: 'Sweden' },
+        { name: 'Joe', country: 'United Kingdom' },
+        { name: 'Gustav', country: 'Sweden' },
+        { name: 'Birgit', country: 'Denmark' },
+        { name: 'Mary', country: 'United Kingdom' },
+        { name: 'Kai', country: 'Sweden' }
+    ];
+
+    $scope.sortby = function(slct) {
+      $scope.sortbyWhat = slct;
+    };
+
+});
+</script>
+
+<p>Demonstrating filters in AngularJS:</p>
+<p>Table headers "Name" and "Country" are interactable.</p>
+<p>Table headers activate a function, which takes in the criteria for "ordering" ("orderBy" the data)</p>
+
+
+</body>
+</html>
