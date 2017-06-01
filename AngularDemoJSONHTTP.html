@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Angular Demo HTTP Request JSON file</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+
+<body>
+
+  <div ng-app="myApp" ng-controller="myCtrl">
+
+    <h1>AngularJS DEMO: HTTP GET method and JSON data</h1>
+
+    <h2>{{content}}</h2>
+
+    <p>Data fetch result: {{result}}</p>
+
+    <!-- This element p will not be shown if data retrieval was unsuccessful. -->
+    <p ng-show="show">Data overview:</p>
+
+    <ul>
+      <li ng-repeat="item in jsonData.records"> {{item["Name"] + ", " + item["City"] + ", " + item["Country"]}} </li>
+    </ul>
+
+  </div>
+
+
+  <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+      $http.get("https://www.w3schools.com/angular/customers.php")
+        .then(function(response) {
+          $scope.content = "JSON data";
+          $scope.jsonData = response.data;
+          $scope.result = "data received.";
+          $scope.show = true;
+        }, function(response) {
+          $scope.content = "Something went wrong: " + response.statusText;
+          $scope.result = "not found.";
+          $scope.show = false;
+        });
+    });
+  </script>
+
+</body>
+
+</html>
