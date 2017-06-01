@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+<body>
+
+  <div ng-app="myApp" ng-controller="myCtrl">
+    <button ng-click="clickerdeclick()">Show Menu!</button>
+
+    <div ng-show="showOrNot">
+      <h1>Menu:</h1>
+      <ul>
+        <li ng-repeat="food in menu"> {{food.name + " : " + food.price}}</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) {
+      $scope.showOrNot = false;
+      $scope.menu = [{
+        name: "fries",
+        price: "3 €"
+      }, {
+        name: "ice",
+        price: "1.5 €"
+      }, {
+        name: "soup",
+        price: "4 €"
+      }, {
+        name: "fish",
+        price: "10 €"
+      }];
+      $scope.clickerdeclick = function() {
+        $scope.showOrNot = !$scope.showOrNot;
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>
